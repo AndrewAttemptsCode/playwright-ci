@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: [ main, master ]
 jobs:
-  test:
+  playwright-tests:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -19,6 +19,9 @@ jobs:
       run: npx playwright install --with-deps --force
     - name: Run Playwright form layouts page tests
       run: npm run testForms-chrome
+      env:
+        FORM_EMAIL: ${{ secrets.FORM_EMAIL }}
+        FORM_PASSWORD: ${{ secrets.FORM_PASSWORD }}
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
