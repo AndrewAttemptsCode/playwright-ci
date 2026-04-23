@@ -8,7 +8,11 @@
   },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve"
+    "start": "ng serve",
+    "testForms-chrome": "npx playwright test formLayouts.spec.ts --project=chromium",
+    "testForms-firefox": "npx playwright test formLayouts.spec.ts --project=firefox",
+    "testForms-all": "npm run testForms-chrome && npm run testForms-firefox",
+    "allTestsProd": "npx playwright test --config=playwright-prod.config.ts"
   },
   "dependencies": {
     "@angular/animations": "^14.2.12",
@@ -76,6 +80,9 @@
     "ts-node": "3.2.2",
     "tslint": "~6.1.0",
     "tslint-language-service": "^0.9.9",
-    "typescript": "~4.6.4"
+    "typescript": "~4.6.4",
+    "@faker-js/faker": "^10.4.0",
+    "@playwright/test": "^1.58.2",
+    "dotenv": "^17.4.2"
   }
 }

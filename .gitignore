@@ -5,6 +5,7 @@
 
 # dependencies
 /node_modules
+.env
 
 # IDEs and editors
 /.idea
@@ -41,3 +42,10 @@ testem.log
 .DS_Store
 Thumbs.db
 node_modules
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
