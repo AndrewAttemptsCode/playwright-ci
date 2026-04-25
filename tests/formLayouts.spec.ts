@@ -1,6 +1,7 @@
 import { test } from "@playwright/test";
 import PageManager from "../pageObjects/PageManager";
 import { faker } from "@faker-js/faker";
+import { argosScreenshot } from "@argos-ci/playwright";
 
 const formEmail = process.env.FORM_EMAIL;
 const formPassword = process.env.FORM_PASSWORD;
@@ -39,4 +40,12 @@ test("'Inline form' login @regression @ui", async ({ page, isMobile }, testInfo)
     // Take screenshot and save in memory
     const buffer = await page.locator("nb-card", { hasText: /inline form/i }).screenshot();
   }
+});
+
+test("testing with argos ci", async ({ page, isMobile }) => {
+  const pm = new PageManager(page);
+  await pm.navigateTo().formLayoutsPage(isMobile);
+  await argosScreenshot(page, "form layout page");
+  await pm.navigateTo().datepickerPage(isMobile);
+  await argosScreenshot(page, "datepicker page");
 });
