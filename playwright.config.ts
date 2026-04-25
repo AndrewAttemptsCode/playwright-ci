@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import { createArgosReporterOptions } from "@argos-ci/playwright/reporter";
 
 /**
  * Read environment variables from file.
@@ -23,7 +24,22 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [
+    // Use "dot" reporter on CI, "list" otherwise (Playwright default).
+    process.env.CI ? ["dot"] : ["list"],
+    // Add Argos reporter.
+    [
+      "@argos-ci/playwright/reporter",
+      createArgosReporterOptions({
+        // Upload to Argos on CI only.
+        uploadToArgos: !!process.env.CI,
+
+        // Set your Argos token (required if not using GitHub Actions).
+        // Integrated with GitHub account - not required.
+        // token: "<YOUR-ARGOS-TOKEN>",
+      }),
+    ],
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
@@ -31,6 +47,8 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    // Capture screenshot after each test failure.
+    screenshot: 'only-on-failure',
     // Record tests in video format - good for debugging (also is attached to test reports)
     // video: 'on'
   },
